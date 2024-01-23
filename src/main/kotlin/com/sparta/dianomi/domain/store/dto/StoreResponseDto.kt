@@ -4,6 +4,7 @@ data class StoreResponseDto(
     val storeId:Long,
     val name:String,
     val address:String,
+    val description:String,
     val businessNum:String,
     val orderCount:Int,
     val reviewCount:Int

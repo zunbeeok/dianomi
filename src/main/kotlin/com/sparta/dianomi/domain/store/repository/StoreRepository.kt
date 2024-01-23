@@ -1,7 +1,7 @@
 package com.sparta.dianomi.domain.store.repository
 
-import com.sparta.dianomi.domain.store.model.StoreEntity
+import com.sparta.dianomi.domain.store.model.Store
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface StoreRepository:JpaRepository<StoreEntity,Long> {
+interface StoreRepository:JpaRepository<Store,Long> {
 }

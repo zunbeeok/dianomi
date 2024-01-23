@@ -30,19 +30,6 @@ class Store(
     @Column(name = "review_count")
     var reviewCount:Int =0
 
-////    companion object{
-//        fun toResponse(storeEntity: Store):StoreResponseDto{
-//            return StoreResponseDto(
-//                storeId = storeEntity.storeId!!,
-//                name = storeEntity.name,
-//                address = storeEntity.address,
-//                businessNum = storeEntity.businessNum,
-//                orderCount = storeEntity.orderCount,
-//                reviewCount = storeEntity.reviewCount
-//
-//            )
-//        }
-
 
     fun toResponse():StoreResponseDto{
         return StoreResponseDto(
@@ -59,4 +46,5 @@ class Store(
 
 
 }
+
 

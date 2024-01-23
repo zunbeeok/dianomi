@@ -5,8 +5,9 @@ import com.sparta.dianomi.domain.store.dto.StoreResponseDto
 import com.sparta.dianomi.domain.store.dto.UpdateStoreDto
 
 interface StoreService {
-    fun getStore(storeId:Long):StoreResponseDto?
+    fun getStore(storeId:Long):StoreResponseDto
     //가게정보조회
+    fun gerStoreList():List<StoreResponseDto>
     fun createStore(createStoreDto: CreateStoreDto):StoreResponseDto
     //신규상점입점
     fun updateStore(storeId: Long,updateStoreDto: UpdateStoreDto):StoreResponseDto
