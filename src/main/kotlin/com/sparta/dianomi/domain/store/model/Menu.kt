@@ -1,4 +1,4 @@
-package com.sparta.dianomi.domain.store.menu.model
+package com.sparta.dianomi.domain.store.model
 
 import com.sparta.dianomi.common.model.BaseTimeEntity
 import jakarta.persistence.Entity
