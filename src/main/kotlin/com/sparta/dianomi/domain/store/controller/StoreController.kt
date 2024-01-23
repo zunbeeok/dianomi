@@ -34,6 +34,7 @@ class StoreController (
         .status(HttpStatus.OK)
         .body(storeService.gerStoreList())
     }
+    //가게 리스트
 
     @PostMapping
     fun createStore(
@@ -59,6 +60,7 @@ class StoreController (
     fun deleteStore(
         @PathVariable storeId:Long
     ):ResponseEntity<Unit>{
+        storeService.deleteStore(storeId)
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
             .build()

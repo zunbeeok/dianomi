@@ -1,7 +1,7 @@
 package com.sparta.dianomi.domain.review.model
 
 import com.sparta.dianomi.common.model.BaseTimeEntity
-import com.sparta.dianomi.domain.review.dto.UpdateReviewRequest
+//import com.sparta.dianomi.domain.review.dto.UpdateReviewRequest
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -29,8 +29,8 @@ class Review (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private val id: Long? = null;
 
-    fun updateRatingAndComment(updateReview: UpdateReviewRequest){
-        this.rating = updateReview.rating;
-        this.comment = updateReview.comment;
-    }
+//    fun updateRatingAndComment(updateReview: UpdateReviewRequest){
+//        this.rating = updateReview.rating;
+//        this.comment = updateReview.comment;
+//    }
 }
