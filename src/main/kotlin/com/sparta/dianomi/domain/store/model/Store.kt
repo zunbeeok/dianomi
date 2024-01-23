@@ -30,7 +30,7 @@ class Store(
     @Column(name = "review_count")
     var reviewCount:Int =0
 
-
+    //
     fun toResponse():StoreResponseDto{
         return StoreResponseDto(
             storeId = this.storeId!!,
