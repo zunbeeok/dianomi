@@ -1,12 +1,14 @@
-package com.sparta.dianomi.domain.store.model
+package com.sparta.dianomi.domain.review.model
 
 import com.sparta.dianomi.common.model.BaseTimeEntity
-import com.sparta.dianomi.domain.store.dto.UpdateReviewRequest
+import com.sparta.dianomi.domain.review.dto.UpdateReviewRequest
 import jakarta.persistence.Column
+import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 
+@Entity
 class Review (
     @Column(name = "rating")
     var rating:Long,
