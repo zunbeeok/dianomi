@@ -56,7 +56,6 @@ dependencies {
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
 
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-	  implementation("com.h2database:h2")
 }
 
 tasks.withType<KotlinCompile> {
