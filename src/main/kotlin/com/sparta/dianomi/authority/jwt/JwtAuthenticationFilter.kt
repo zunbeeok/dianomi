@@ -31,11 +31,11 @@ class JwtAuthenticationFilter(
                 .onSuccess {
                     val memberId = it.payload.subject.toLong()
                     val role = it.payload.get("role", String::class.java)
-                    val memberName = it.payload.get("memberName", String::class.java)
+                    val nickName = it.payload.get("nickName", String::class.java)
 
                     val principal = UserPrincipal(
                         id = memberId,
-                        memberName = memberName,
+                        nickName = nickName,
                         roles = setOf(role)
                     )
 

@@ -45,12 +45,12 @@ class MemberServiceImpl(
         val memberFind =
             memberRepository.findByMemberName(request.memberName) ?: throw ModelNotFoundException("Member", null)
         if (!passwordEncoder.matches(request.password, memberFind.password)) {
-            throw InvalidCredentialException()
+            throw InvalidCredentialException("password not correct")
         }
         return LoginResponse(
             accessToken = jwtPlugin.generateAccessToken(
                 subject = memberFind.id.toString(),
-                memberName = memberFind.memberName,
+                nickName = memberFind.nickName,
                 role = memberFind.role.name
             )
         )
