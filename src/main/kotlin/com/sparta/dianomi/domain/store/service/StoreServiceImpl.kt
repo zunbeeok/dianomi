@@ -1,5 +1,6 @@
 package com.sparta.dianomi.domain.store.service
 
+import com.sparta.dianomi.common.exception.ModelNotFoundException
 import com.sparta.dianomi.domain.store.dto.CreateStoreDto
 import com.sparta.dianomi.domain.store.dto.StoreResponseDto
 import com.sparta.dianomi.domain.store.dto.UpdateStoreDto
@@ -14,16 +15,13 @@ class StoreServiceImpl(
     private val storeRepository: StoreRepository,
 ):StoreService {
     override fun getStore(storeId: Long): StoreResponseDto {
-        val findStore = storeRepository.findByIdOrNull(storeId)?: throw Exception("store not found");
+        val findStore = storeRepository.findByIdOrNull(storeId)?: throw ModelNotFoundException("store", storeId)
+        //데이터를 찾지 못함
         return findStore.toResponse();
         //dto를 제외하고 클래스를 호출할 생각 X 하면 의존성 증가.
     }
+    //접근하는 user가 상점의 특정정보를 들고있어야 대조해보고
 
-//    override fun getStore(storeId: Long): StoreResponseDto =
-//        storeRepository.findByIdOrNull(storeId).let {
-//            it ?: throw Exception()
-//        }.toResponse()
-//    //stream 기법 물흐르듯이
 
 
     override fun gerStoreList(): List<StoreResponseDto> {
@@ -44,8 +42,8 @@ class StoreServiceImpl(
 
     @Transactional
     override fun updateStore(storeId: Long, updateStoreDto: UpdateStoreDto): StoreResponseDto {
-       val findStore = storeRepository.findByIdOrNull(storeId)?: throw Exception("not found store")
-
+       val findStore = storeRepository.findByIdOrNull(storeId)?: throw ModelNotFoundException("store", storeId)
+        //수정하는 user와 store를 해서
         extracted(findStore, updateStoreDto)
         // 함수로 바꾸면 entity안에 ?!
 
@@ -64,7 +62,7 @@ class StoreServiceImpl(
 
     @Transactional
     override fun deleteStore(storeId: Long) {
-        val findStore = storeRepository.findByIdOrNull(storeId)?: throw Exception("store not found")
+        val findStore = storeRepository.findByIdOrNull(storeId)?: throw ModelNotFoundException("store", storeId)
         storeRepository.delete(findStore)
     }
 }
