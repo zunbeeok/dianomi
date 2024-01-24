@@ -1,4 +1,4 @@
-package com.sparta.dianomi.domain.store.model.repository
+package com.sparta.dianomi.domain.store.repository
 
 import com.sparta.dianomi.domain.store.model.Menu
 import org.springframework.data.jpa.repository.JpaRepository

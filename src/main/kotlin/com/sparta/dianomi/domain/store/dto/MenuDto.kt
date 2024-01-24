@@ -1,4 +1,4 @@
-package com.sparta.dianomi.domain.store.model.dto
+package com.sparta.dianomi.domain.store.dto
 
 import com.sparta.dianomi.domain.store.model.Menu
 

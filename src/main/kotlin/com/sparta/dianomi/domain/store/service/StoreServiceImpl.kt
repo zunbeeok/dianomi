@@ -37,7 +37,9 @@ class StoreServiceImpl(
                 name = createStoreDto.name,
                 address = createStoreDto.address,
                 businessNum = createStoreDto.businessNum,
-                description = createStoreDto.description
+                description = createStoreDto.description,
+                userId = createStoreDto.userId
+
             )
         ).toResponse()
     }//상호명 같은거 처리해줘야하는지?
