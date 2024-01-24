@@ -24,16 +24,17 @@ class Store(
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var storeId:Long?=null
+    var id:Long?=null
     @Column(name="order_count")
     var orderCount:Int =0
     @Column(name = "review_count")
     var reviewCount:Int =0
+    //db상의 컬럼이 id 로 되어있어서 쌍방으로 맞춰줘야함 안맞춰줘도 되는거는 따로 알아보기 잘모르겠음 ㅇㅇ
 
     //
     fun toResponse():StoreResponseDto{
         return StoreResponseDto(
-            storeId = this.storeId!!,
+            id = this.id!!,
             name = this.name,
             address = this.address,
             description =this.description,
