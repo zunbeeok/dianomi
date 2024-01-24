@@ -7,6 +7,7 @@ import com.sparta.dianomi.domain.member.service.MemberService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
@@ -32,22 +33,21 @@ class MemberController(
         @RequestBody updateMemberProfileRequest: UpdateMemberProfileRequest,
         @AuthenticationPrincipal user: UserPrincipal,
     ): ResponseEntity<String> {
-        val memberId= user.id
         return ResponseEntity.status(HttpStatus.OK)
-            .body(memberService.updateMemberProfile(updateMemberProfileRequest,memberId))
+            .body(memberService.updateMemberProfile(updateMemberProfileRequest,user.id))
     }
 
     @PutMapping("/member/password")
     fun updatePassword(@Valid @RequestBody updatePasswordRequest : UpdatePasswordRequest,
                        @AuthenticationPrincipal user: UserPrincipal,) : ResponseEntity<String> {
-        val memberId= user.id
-        return ResponseEntity.status(HttpStatus.OK).body(memberService.updatePassword(updatePasswordRequest,memberId))
+        return ResponseEntity.status(HttpStatus.OK).body(memberService.updatePassword(updatePasswordRequest,user.id))
     }
 
     @DeleteMapping("/member")
     fun deleteMember(@AuthenticationPrincipal user: UserPrincipal,) : ResponseEntity<Unit> {
-        val memberId= user.id
-        memberService.deleteMember(memberId)
+                memberService.deleteMember(user.id)
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build()
     }
 }
+
+//불필요한 코드 리팩터링
