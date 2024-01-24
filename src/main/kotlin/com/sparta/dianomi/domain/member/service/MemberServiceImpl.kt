@@ -44,7 +44,7 @@ class MemberServiceImpl(
     override fun login(request: LoginRequest): LoginResponse {
         val memberFind =
             memberRepository.findByMemberName(request.memberName) ?: throw ModelNotFoundException("Member", null)
-        if (memberFind.role.name != request.role || !passwordEncoder.matches(request.password, memberFind.password)) {
+        if (!passwordEncoder.matches(request.password, memberFind.password)) {
             throw InvalidCredentialException()
         }
         return LoginResponse(
