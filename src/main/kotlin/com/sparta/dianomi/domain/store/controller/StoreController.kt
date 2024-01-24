@@ -1,15 +1,14 @@
 package com.sparta.dianomi.domain.store.controller
 
 import com.sparta.dianomi.authority.security.UserPrincipal
-import com.sparta.dianomi.domain.member.model.MemberRole
 import com.sparta.dianomi.domain.store.dto.CreateStoreDto
 import com.sparta.dianomi.domain.store.dto.StoreResponseDto
 import com.sparta.dianomi.domain.store.dto.UpdateStoreDto
 import com.sparta.dianomi.domain.store.service.StoreService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.core.userdetails.User
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -40,22 +39,12 @@ class StoreController (
     }
     //가게 리스트
 
-
-    //사장
-    //회원가입시에 사장ROLE 부여한 회원만 Store 작성 할 수 있어야한다.
     @PostMapping
+    @PreAuthorize("hasRole('STORE')")//스토어인 유저만 만들수있슴
     fun createStore(
         @RequestBody createStoreDto: CreateStoreDto,
-        @AuthenticationPrincipal user:UserPrincipal
+        @AuthenticationPrincipal user: UserPrincipal
     ):ResponseEntity<StoreResponseDto>{
-        user.authorities.filter {
-            it.authority.equals("ROLE_"+MemberRole.STORE)
-        }.let {
-            if(it.isEmpty()){
-                throw Exception("유저 권한이 맞지 않습니다.");
-            }
-        }
-
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(storeService.createStore(createStoreDto))
@@ -63,9 +52,11 @@ class StoreController (
     //가게 정보 생성
 
     @PutMapping("/{storeId}")
+    @PreAuthorize("hasRole('STORE')")
     fun updateStore(
         @PathVariable storeId: Long,
-        @RequestBody updateStoreDto: UpdateStoreDto
+        @RequestBody updateStoreDto: UpdateStoreDto,
+        @AuthenticationPrincipal user: UserPrincipal
     ):ResponseEntity<StoreResponseDto>{
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -73,8 +64,10 @@ class StoreController (
     }
     //가게 정보 수정
     @DeleteMapping("/{storeId}")
+    @PreAuthorize("hasRole('STORE')")
     fun deleteStore(
-        @PathVariable storeId:Long
+        @PathVariable storeId:Long,
+        @AuthenticationPrincipal user: UserPrincipal
     ):ResponseEntity<Unit>{
         storeService.deleteStore(storeId)
         return ResponseEntity

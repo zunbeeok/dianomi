@@ -44,6 +44,7 @@ class Store(
 
         )
     }
+    //반환 dto menuDto 안에 프로퍼티를 entity 의 값으로 대입 하는 함수
 
 
 }

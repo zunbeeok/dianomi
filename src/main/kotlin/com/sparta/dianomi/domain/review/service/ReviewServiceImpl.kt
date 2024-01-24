@@ -46,7 +46,7 @@ class ReviewServiceImpl(
         = storeRepository.findByIdOrNull(storeId).let {
             it ?: throw ModelNotFoundException("store", storeId)
         }.let {
-            reviewRepository.findAllByStoreId(it.storeId!!)
+            reviewRepository.findAllByStoreId(it.id!!)
         }.map {
             ReviewCommonResponse(it)
         }
