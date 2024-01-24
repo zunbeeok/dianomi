@@ -35,7 +35,7 @@ class StoreController (
     fun getStoreList():ResponseEntity<List<StoreResponseDto>>{
     return ResponseEntity
         .status(HttpStatus.OK)
-        .body(storeService.gerStoreList())
+        .body(storeService.getStoreList())
     }
     //가게 리스트
 
@@ -45,9 +45,11 @@ class StoreController (
         @RequestBody createStoreDto: CreateStoreDto,
         @AuthenticationPrincipal user: UserPrincipal
     ):ResponseEntity<StoreResponseDto>{
+
+
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(storeService.createStore(createStoreDto))
+            .body(storeService.createStore(createStoreDto,user.id))
     }
     //가게 정보 생성
 
@@ -60,7 +62,7 @@ class StoreController (
     ):ResponseEntity<StoreResponseDto>{
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(storeService.updateStore(storeId,updateStoreDto))
+            .body(storeService.updateStore(storeId,updateStoreDto, user.id))
     }
     //가게 정보 수정
     @DeleteMapping("/{storeId}")
@@ -69,7 +71,7 @@ class StoreController (
         @PathVariable storeId:Long,
         @AuthenticationPrincipal user: UserPrincipal
     ):ResponseEntity<Unit>{
-        storeService.deleteStore(storeId)
+        storeService.deleteStore(storeId, user.id)
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
             .build()

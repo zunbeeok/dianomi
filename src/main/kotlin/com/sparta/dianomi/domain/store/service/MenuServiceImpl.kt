@@ -57,9 +57,9 @@ class MenuServiceImpl(
     }
 
     private fun _checkOwner(storeId: Long,userId: Long) {
-        val store : Store =storeRepository.findByIdOrNull(storeId) ?: throw Exception();
+        val store : Store =storeRepository.findByIdOrNull(storeId) ?: throw Exception("Store not found");
         if (store.userId != userId) {
-                throw Exception()
+                throw Exception("User does not have permission to modify this store")
             }
 
 

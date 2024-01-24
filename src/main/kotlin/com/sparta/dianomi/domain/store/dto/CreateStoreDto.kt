@@ -7,5 +7,4 @@ data class CreateStoreDto(
     val address:String,
     val businessNum:String,
     val description:String,
-    val userId:Long
 )
