@@ -24,14 +24,13 @@ class ReviewServiceImpl(
 
     @Transactional
     override fun createReview(request: CreateReviewRequest,userId: Long): ReviewCommonResponse
-        = memberRepository.findByIdOrNull(userId).let {
-            it ?: throw ModelNotFoundException("member",userId)
-        }.let {
-            reviewRepository.save(Review(request.rating,request.description,request.storeId,it.id!!))
-        }.let {
+    = Review(request.rating,request.description,request.storeId,userId)
+        .let {
+            reviewRepository.save(it)
+        }
+        .let {
             ReviewCommonResponse(it)
         }
-
 
     override fun getReviewListByMemberId(userId: Long): List<ReviewCommonResponse>
         = memberRepository.findByIdOrNull(userId).let {

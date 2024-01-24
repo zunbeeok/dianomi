@@ -43,10 +43,9 @@ class ReviewController(
 
     @PostMapping()
     @PreAuthorize("hasRole('USER')")
-    fun createReview(@RequestBody createReviewRequest: CreateReviewRequest,@AuthenticationPrincipal user:UserPrincipal):ResponseEntity<ReviewCommonResponse>{
+    fun createReview(@RequestBody createReviewRequest: CreateReviewRequest,@AuthenticationPrincipal user:UserPrincipal):ResponseEntity<ReviewCommonResponse>
+        = ResponseEntity.status(HttpStatus.CREATED).body(reviewService.createReview(createReviewRequest,user.id))
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(reviewService.createReview(createReviewRequest,user.id))
-    }
 
 
     @PutMapping("/{reviewId}")
