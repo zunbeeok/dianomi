@@ -1,25 +1,24 @@
 package com.sparta.dianomi.domain.store.model
 
-import com.sparta.dianomi.domain.store.dto.CreateStoreDto
 import com.sparta.dianomi.domain.store.dto.StoreResponseDto
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 
 @Entity
 @Table(name = "store")
 class Store(
     @Column(name = "name")
-    var name:String,
+    var name: String,
     @Column(name = "address")
-    var address:String,
+    var address: String,
     @Column(name = "description")
-    var description:String,
+    var description: String,
     @Column(name = "business_num")
-    var businessNum:String
+    var businessNum: String,
+
+    @Column(name = "user_id")
+    var userId: Long
+
+
 
 ) {
     @Id
@@ -31,6 +30,9 @@ class Store(
     var reviewCount:Int =0
     //db상의 컬럼이 id 로 되어있어서 쌍방으로 맞춰줘야함 안맞춰줘도 되는거는 따로 알아보기 잘모르겠음 ㅇㅇ
 
+
+
+
     //
     fun toResponse():StoreResponseDto{
         return StoreResponseDto(
@@ -40,7 +42,9 @@ class Store(
             description =this.description,
             businessNum = this.businessNum,
             orderCount = this.orderCount,
-            reviewCount = this.reviewCount
+            reviewCount = this.reviewCount,
+            userId = this.userId
+
 
         )
     }

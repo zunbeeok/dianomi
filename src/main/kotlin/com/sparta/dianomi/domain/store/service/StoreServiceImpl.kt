@@ -24,24 +24,27 @@ class StoreServiceImpl(
 
 
 
-    override fun gerStoreList(): List<StoreResponseDto> {
+    override fun getStoreList(): List<StoreResponseDto> {
         return storeRepository.findAll().map{it.toResponse()}
     }
 
     @Transactional
-    override fun createStore(createStoreDto: CreateStoreDto): StoreResponseDto {
+    override fun createStore(createStoreDto: CreateStoreDto, userId: Long): StoreResponseDto {
         return storeRepository.save(
             Store(
                 name = createStoreDto.name,
                 address = createStoreDto.address,
                 businessNum = createStoreDto.businessNum,
-                description = createStoreDto.description
+                description = createStoreDto.description,
+                userId = userId
+
             )
         ).toResponse()
     }//상호명 같은거 처리해줘야하는지?
 
     @Transactional
-    override fun updateStore(storeId: Long, updateStoreDto: UpdateStoreDto): StoreResponseDto {
+    override fun updateStore(storeId: Long, updateStoreDto: UpdateStoreDto, userId: Long): StoreResponseDto {
+        _checkOwner(storeId, userId)
        val findStore = storeRepository.findByIdOrNull(storeId)?: throw ModelNotFoundException("store", storeId)
         //수정하는 user와 store를 해서
         extracted(findStore, updateStoreDto)
@@ -61,8 +64,18 @@ class StoreServiceImpl(
     }
 
     @Transactional
-    override fun deleteStore(storeId: Long) {
+    override fun deleteStore(storeId: Long, userId: Long) {
+        _checkOwner(storeId, userId)
         val findStore = storeRepository.findByIdOrNull(storeId)?: throw ModelNotFoundException("store", storeId)
         storeRepository.delete(findStore)
+    }
+
+    private fun _checkOwner(storeId: Long,userId: Long) {
+        val store : Store =storeRepository.findByIdOrNull(storeId) ?: throw Exception("Store not found");
+        if (store.userId != userId) {
+            throw Exception("User does not have permission to modify this store")
+        }
+
+
     }
 }
