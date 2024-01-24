@@ -28,6 +28,7 @@ class Store(
     var orderCount:Int =0
     @Column(name = "review_count")
     var reviewCount:Int =0
+    //db상의 컬럼이 id 로 되어있어서 쌍방으로 맞춰줘야함 안맞춰줘도 되는거는 따로 알아보기 잘모르겠음 ㅇㅇ
 
 
 
@@ -47,6 +48,7 @@ class Store(
 
         )
     }
+    //반환 dto menuDto 안에 프로퍼티를 entity 의 값으로 대입 하는 함수
 
 
 }
