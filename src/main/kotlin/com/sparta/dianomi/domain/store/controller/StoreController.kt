@@ -1,11 +1,15 @@
 package com.sparta.dianomi.domain.store.controller
 
+import com.sparta.dianomi.authority.security.UserPrincipal
+import com.sparta.dianomi.domain.member.model.MemberRole
 import com.sparta.dianomi.domain.store.dto.CreateStoreDto
 import com.sparta.dianomi.domain.store.dto.StoreResponseDto
 import com.sparta.dianomi.domain.store.dto.UpdateStoreDto
 import com.sparta.dianomi.domain.store.service.StoreService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.User
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -35,10 +39,22 @@ class StoreController (
         .body(storeService.gerStoreList())
     }
 
+
+    //사장
+    //회원가입시에 사장ROLE 부여한 회원만 Store 작성 할 수 있어야한다.
     @PostMapping
     fun createStore(
-        @RequestBody createStoreDto: CreateStoreDto
+        @RequestBody createStoreDto: CreateStoreDto,
+        @AuthenticationPrincipal user:UserPrincipal
     ):ResponseEntity<StoreResponseDto>{
+        user.authorities.filter {
+            it.authority.equals("ROLE_"+MemberRole.STORE)
+        }.let {
+            if(it.isEmpty()){
+                throw Exception("유저 권한이 맞지 않습니다.");
+            }
+        }
+
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(storeService.createStore(createStoreDto))
