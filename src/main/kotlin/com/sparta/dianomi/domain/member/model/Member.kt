@@ -1,6 +1,10 @@
 package com.sparta.dianomi.domain.member.model
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo
+import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import jakarta.persistence.*
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator::class, property = "id")
 
 @Entity
 @Table(name = "member")
@@ -26,7 +30,12 @@ class Member(
     @Column(name = "hp" , nullable = false , unique = true)
     var phoneNumber: String,
 
-    ) {
+
+    @OneToMany(mappedBy = "member", targetEntity = Cart::class)
+    var carts: List<Cart> = arrayListOf()
+
+
+) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null

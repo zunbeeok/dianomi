@@ -1,9 +1,13 @@
 package com.sparta.dianomi.domain.store.model
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo
+import com.fasterxml.jackson.annotation.ObjectIdGenerators
+import com.sparta.dianomi.domain.member.model.Cart
 import com.sparta.dianomi.domain.store.dto.StoreResponseDto
 import jakarta.persistence.*
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator::class, property = "id")
 @Table(name = "store")
 class Store(
     @Column(name = "name")
@@ -16,7 +20,11 @@ class Store(
     var businessNum: String,
 
     @Column(name = "user_id")
-    var userId: Long
+    var userId: Long,
+
+    @OneToMany(mappedBy = "store", targetEntity = Cart::class)
+    var carts: List<Cart> = arrayListOf()
+
 
 
 
