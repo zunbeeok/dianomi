@@ -4,6 +4,7 @@ import com.sparta.dianomi.authority.security.UserPrincipal
 import com.sparta.dianomi.domain.store.dto.CreateStoreDto
 import com.sparta.dianomi.domain.store.dto.StoreResponseDto
 import com.sparta.dianomi.domain.store.dto.UpdateStoreDto
+import com.sparta.dianomi.domain.store.model.Category
 import com.sparta.dianomi.domain.store.service.StoreService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -77,4 +78,9 @@ class StoreController (
             .build()
     }
     //가게 정보 삭제
+
+    @GetMapping("/categories")
+    fun getCategories(): Map<String, List<String>> {
+        return mapOf("data" to Category.entries.map { it.name })
+    }
 }
