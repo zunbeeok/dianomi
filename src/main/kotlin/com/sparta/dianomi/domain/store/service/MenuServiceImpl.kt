@@ -1,11 +1,12 @@
-package com.sparta.dianomi.domain.store.model.service
+package com.sparta.dianomi.domain.store.service
 
 import com.sparta.dianomi.common.exception.ModelNotFoundException
-import com.sparta.dianomi.domain.store.model.dto.MenuCreateDto
-import com.sparta.dianomi.domain.store.model.dto.MenuDto
-import com.sparta.dianomi.domain.store.model.dto.MenuUpdateDto
+import com.sparta.dianomi.domain.store.dto.MenuCreateDto
+import com.sparta.dianomi.domain.store.dto.MenuDto
+import com.sparta.dianomi.domain.store.dto.MenuUpdateDto
 import com.sparta.dianomi.domain.store.model.Menu
-import com.sparta.dianomi.domain.store.model.repository.MenuRepository
+import com.sparta.dianomi.domain.store.model.Store
+import com.sparta.dianomi.domain.store.repository.MenuRepository
 import com.sparta.dianomi.domain.store.repository.StoreRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -26,7 +27,9 @@ class MenuServiceImpl(
         return MenuDto.from(menu)
     }
 
-    override fun createMenu(storeId: Long, menuCreateDto: MenuCreateDto): MenuDto {
+    override fun createMenu(storeId: Long, menuCreateDto: MenuCreateDto, userId: Long): MenuDto {
+        _checkOwner(storeId, userId)
+
         val newMenu = Menu(
             name = menuCreateDto.name,
             price = menuCreateDto.price,
@@ -37,12 +40,14 @@ class MenuServiceImpl(
         return MenuDto.from(newMenu)
     }
 
-    override fun deleteMenu(storeId: Long, id: Long) {
+    override fun deleteMenu(storeId: Long, id: Long, userId: Long) {
+        _checkOwner(storeId, userId)
         val menu = menuRepository.findByIdOrNull(id) ?: throw ModelNotFoundException("Menu", id)
         menuRepository.delete(menu)
     }
 
-    override fun updateMenu(storeId: Long, id: Long, menuUpdateDto: MenuUpdateDto): MenuDto {
+    override fun updateMenu(storeId: Long, id: Long, menuUpdateDto: MenuUpdateDto, userId: Long): MenuDto {
+        _checkOwner(storeId, userId)
         val menu = menuRepository.findByIdOrNull(id) ?: throw ModelNotFoundException("Menu", id)
         menu.name = menuUpdateDto.name
         menu.price = menuUpdateDto.price
@@ -50,4 +55,14 @@ class MenuServiceImpl(
         menuRepository.save(menu)
         return MenuDto.from(menu)
     }
+
+    private fun _checkOwner(storeId: Long,userId: Long) {
+        val store : Store =storeRepository.findByIdOrNull(storeId) ?: throw Exception("Store not found");
+        if (store.userId != userId) {
+                throw Exception("User does not have permission to modify this store")
+            }
+
+
+    }
+
 }

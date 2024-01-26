@@ -7,5 +7,6 @@ data class StoreResponseDto(
     val description:String,
     val businessNum:String,
     val orderCount:Int,
-    val reviewCount:Int
+    val reviewCount:Int,
+    val userId:Long
 )
