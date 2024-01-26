@@ -36,12 +36,10 @@ class CartServiceImpl(
         cartRepository.deleteAll(carts)
     }
 
-    override fun getCart(memberId: Long, cartId: Long): Cart {
-        val cart = cartRepository.findById(cartId).orElseThrow { Exception("Cart not found") }
-        if (cart.member.id != memberId) {
-            throw IllegalAccessException("Not authorized to view this cart.")
-        }
-        return cart
+    override fun getCarts(memberId: Long): List<Cart> {
+        val member = memberRepository.findById(memberId).orElseThrow { Exception("Member not found") }
+        val carts = cartRepository.findAllByMember(member)
+        return carts
     }
-}
 
+}
