@@ -58,7 +58,7 @@ class StoreServiceImpl(
         findStore.address = updateStoreDto.address
         findStore.businessNum = updateStoreDto.businessNum
         findStore.description = updateStoreDto.description
-    }
+    }//toEntity
 
     @Transactional
     override fun deleteStore(storeId: Long) {
