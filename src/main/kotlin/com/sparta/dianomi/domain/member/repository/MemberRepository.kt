@@ -1,6 +1,7 @@
 package com.sparta.dianomi.domain.member.repository
 
 import com.sparta.dianomi.domain.member.model.Member
+import com.sparta.dianomi.domain.member.model.MemberRole
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface MemberRepository : JpaRepository<Member, Long> {
