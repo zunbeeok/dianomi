@@ -16,15 +16,15 @@ class IssuedController(
     private val couponService: CouponService
 ) {
 
-    @PostMapping
-    @PreAuthorize("hasRole('USER')")
-    fun createIssuedCoupon(
-        @RequestBody createCouponDto: CreateCouponDto,
-        @AuthenticationPrincipal user: UserPrincipal,
-    ): ResponseEntity<CouponResponseDto> {
-        return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(couponService.createCoupon(createCouponDto,user.id))
-    }
+//    @PostMapping
+//    @PreAuthorize("hasRole('USER')")
+//    fun createIssuedCoupon(
+//        @RequestBody createCouponDto: CreateCouponDto,
+//        @AuthenticationPrincipal user: UserPrincipal,
+//    ): ResponseEntity<CouponResponseDto> {
+//        return ResponseEntity
+//            .status(HttpStatus.CREATED)
+//            .body(couponService.createCoupon(createCouponDto,user.id))
+//    }
 
 }

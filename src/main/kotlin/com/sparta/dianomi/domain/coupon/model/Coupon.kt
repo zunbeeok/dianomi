@@ -1,8 +1,6 @@
 package com.sparta.dianomi.domain.coupon.model
 
 import com.sparta.dianomi.domain.coupon.dto.CouponResponseDto
-import com.sparta.dianomi.domain.member.model.MemberRole
-import com.sparta.dianomi.domain.store.model.Store
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -16,24 +14,27 @@ import jakarta.persistence.Table
 @Table(name = "coupon")
 class Coupon(
     @Column(name = "name")
-    var name:String,
+    var name: String,
 
     @Column(name = "discount")
-    var discount:Double,
+    var discount: Double,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "publisher")
     var publisher: Publisher,
 
     @Column(name = "max_count")
-    var maxCount:Int,
+    var maxCount: Int,
 
     @Column(name = "user_id")
-    val userId : Long,
+    val userId: Long,
 
     //true와 false로 사용유무 구분을 위함
     @Column(name = "issued")
-    val issued: Boolean
+    val issued: Boolean,
+
+    @Column(name = "store_id")
+    var storeId : Long? = null
 
 ) {
 
