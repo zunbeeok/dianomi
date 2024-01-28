@@ -32,7 +32,7 @@ class StoreController (
             .body(storeService.getStore(storeId))
     }
     //가게 단건 조회
-    @GetMapping
+    @GetMapping()
     fun getStoreList():ResponseEntity<List<StoreResponseDto>>{
     return ResponseEntity
         .status(HttpStatus.OK)
