@@ -1,5 +1,6 @@
 package com.sparta.dianomi.domain.coupon.model
 
+import com.sparta.dianomi.common.model.BaseTimeEntity
 import jakarta.persistence.*
 
 
@@ -18,17 +19,17 @@ class Issued(
 
 
 
-)
+):BaseTimeEntity()
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
-    @Column(name = "coupon_issued")
-    var couponIssued: Boolean = false
+    @Column(name = "is_used")
+    var isUsed: Boolean = false
 
     fun updateIssued() {
-        this.couponIssued = true
+        this.isUsed = true
     }
 }
 

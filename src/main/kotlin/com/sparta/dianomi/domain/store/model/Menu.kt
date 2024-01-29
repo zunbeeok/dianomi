@@ -1,6 +1,9 @@
 package com.sparta.dianomi.domain.store.model
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo
+import com.fasterxml.jackson.annotation.ObjectIdGenerators
 import com.sparta.dianomi.common.model.BaseTimeEntity
+import com.sparta.dianomi.domain.member.model.Cart
 import jakarta.persistence.*
 
 @Entity
@@ -15,16 +18,13 @@ class Menu(
     @Column(name = "price", nullable = false)
     var price: Int,
 
-    @Column(name = "store_id", nullable = false)
-    var storeId: Long
+    @ManyToOne
+    @JoinColumn(name = "store_id")
+    var store: Store,
+
 ) : BaseTimeEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
-
-//    init {
-//        this.store = store
-//        store.menus.add(this)
-//    }
 }

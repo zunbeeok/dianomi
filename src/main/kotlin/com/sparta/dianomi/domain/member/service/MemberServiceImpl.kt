@@ -95,7 +95,7 @@ class MemberServiceImpl(
             throw InvalidCredentialException("바꿀 비밀번호 체크가 틀립니다")
 
         //memberId로 사용했던 비밀번호 가져오기
-        var passwordRecord = memberPasswordRecordRepository.findByMember(memberFind)
+        var passwordRecord = memberPasswordRecordRepository.findByMember(memberId)
 
         //1. 비밀번호가 최근 3회에 있나 확인 -> recordRepository에서 찾기
         // 빠른순서 세개를 가져와서 any-> 그중 한개라도 있을경우 throw
@@ -103,7 +103,7 @@ class MemberServiceImpl(
             throw InvalidCredentialException("최근 3회 사용했던 비밀번호는 사용 할 수 없습니다.")
 
         //2. 비밀번호 record 저장 -> save를 recordRepository에 해주기
-        val newPasswordRecord = MemberPasswordRecord(memberFind, passwordEncoder.encode(request.newPassword))
+        val newPasswordRecord = MemberPasswordRecord(memberFind.id!!, passwordEncoder.encode(request.newPassword))
         memberPasswordRecordRepository.save(newPasswordRecord)
 
         //3. 비밀번호 record 된게 3개 이상 이면 오래된 것 부터 삭제

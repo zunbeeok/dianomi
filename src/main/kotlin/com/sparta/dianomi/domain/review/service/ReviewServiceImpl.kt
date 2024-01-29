@@ -24,7 +24,7 @@ class ReviewServiceImpl(
 
     @Transactional
     override fun createReview(request: CreateReviewRequest,userId: Long): ReviewCommonResponse
-    = Review(request.rating,request.description,request.storeId,userId)
+    = Review(request.rating,request.description,request.orderId,request.orderId,userId)
         .let {
             reviewRepository.save(it)
         }
