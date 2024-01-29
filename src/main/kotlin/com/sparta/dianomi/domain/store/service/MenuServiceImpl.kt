@@ -29,12 +29,14 @@ class MenuServiceImpl(
 
     override fun createMenu(storeId: Long, menuCreateDto: MenuCreateDto, userId: Long): MenuDto {
         _checkOwner(storeId, userId)
+        val store = this.storeRepository.findByIdOrNull(storeId) ?: throw NullPointerException()
+
 
         val newMenu = Menu(
             name = menuCreateDto.name,
             price = menuCreateDto.price,
             description = menuCreateDto.description,
-            storeId = storeId
+            store =store
         )
         menuRepository.save(newMenu)
         return MenuDto.from(newMenu)

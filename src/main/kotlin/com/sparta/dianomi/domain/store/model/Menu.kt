@@ -7,8 +7,6 @@ import com.sparta.dianomi.domain.member.model.Cart
 import jakarta.persistence.*
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator::class, property = "id")
-
 @Table(name = "menu")
 class Menu(
     @Column(name = "name", nullable = false)
@@ -20,18 +18,13 @@ class Menu(
     @Column(name = "price", nullable = false)
     var price: Int,
 
-    @Column(name = "store_id", nullable = false)
-    var storeId: Long,
-
-    @OneToMany(mappedBy = "menu", targetEntity = Cart::class)
-    var carts: List<Cart> = arrayListOf()
-
+    @ManyToOne
+    @JoinColumn(name = "store_id")
+    var store: Store,
 
 ) : BaseTimeEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
-
-
 
 }

@@ -17,12 +17,12 @@ class Review (
     @Column(name = "comment")
     var comment:String,
 
-//    @Column(name = "menu_id")
-//    val menuId :Long,
-
     @Column(name = "store_id")
     val storeId: Long,
     //storeName을 없이 일단 가져오는데 storeName 가져와야 할수도?
+
+    @Column(name = "order_Id")
+    val orderId:Long,
 
     @Column(name = "user_id")
     val userId:Long,

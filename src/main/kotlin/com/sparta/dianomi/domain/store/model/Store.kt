@@ -7,7 +7,6 @@ import com.sparta.dianomi.domain.store.dto.StoreResponseDto
 import jakarta.persistence.*
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator::class, property = "id")
 @Table(name = "store")
 class Store(
     @Column(name = "name")
@@ -22,12 +21,6 @@ class Store(
     @Column(name = "user_id")
     var userId: Long,
 
-    @OneToMany(mappedBy = "store", targetEntity = Cart::class)
-    var carts: List<Cart> = arrayListOf()
-
-
-
-
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,12 +29,7 @@ class Store(
     var orderCount:Int =0
     @Column(name = "review_count")
     var reviewCount:Int =0
-    //db상의 컬럼이 id 로 되어있어서 쌍방으로 맞춰줘야함 안맞춰줘도 되는거는 따로 알아보기 잘모르겠음 ㅇㅇ
 
-
-
-
-    //
     fun toResponse():StoreResponseDto{
         return StoreResponseDto(
             id = this.id!!,

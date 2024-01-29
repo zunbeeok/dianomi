@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/carts")
-class CartController(private val cartService: CartService) {
+class CartController(
+    private val cartService: CartService
+) {
 
     @PostMapping
     @Operation(summary = "카트에 아이템 추가", description = "주어진 메뉴 ID, 스토어 ID, 회원 ID, 수량에 해당하는 아이템을 카트에 추가합니다.")
