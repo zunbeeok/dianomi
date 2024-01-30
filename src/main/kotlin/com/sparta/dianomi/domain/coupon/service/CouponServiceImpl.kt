@@ -5,6 +5,7 @@ import com.sparta.dianomi.domain.coupon.dto.CouponResponseDto
 import com.sparta.dianomi.domain.coupon.dto.CreateCouponDto
 import com.sparta.dianomi.domain.coupon.dto.IssuedCouponResponseDto
 import com.sparta.dianomi.domain.coupon.model.Coupon
+import com.sparta.dianomi.domain.coupon.model.Issued
 import com.sparta.dianomi.domain.coupon.model.Publisher
 import com.sparta.dianomi.domain.coupon.repository.CouponRepository
 import com.sparta.dianomi.domain.coupon.repository.IssuedRepository
@@ -22,7 +23,7 @@ class CouponServiceImpl(
     private val issuedRepository: IssuedRepository,
     private val memberRepository: MemberRepository,
     private val storeRepository: StoreRepository
-):CouponService{
+):CouponService {
 
 
     override fun createAdminCoupon(createCouponDto: CreateCouponDto, userId: Long): CouponResponseDto {
@@ -41,7 +42,7 @@ class CouponServiceImpl(
         return couponSave.toResponse()
     }
 
-    override fun createStoreCoupon(createCouponDto: CreateCouponDto, userId: Long,storeId: Long): CouponResponseDto {
+    override fun createStoreCoupon(createCouponDto: CreateCouponDto, userId: Long, storeId: Long): CouponResponseDto {
         val userStores: List<Store> = storeRepository.findStoreIdsByUserId(userId)
         val selectStore: Store? = userStores.find { it.id == storeId }
         if (selectStore == null) {
@@ -63,10 +64,47 @@ class CouponServiceImpl(
         return couponSave.toResponse()
     }
 
+    @Transactional
+    override fun createIssuedCoupon(couponId: Long, userId: Long): IssuedCouponResponseDto {
+        val existingCoupon = couponRepository.findByIdOrNull(couponId)
+            ?: throw ModelNotFoundException("Coupon", couponId)
 
-    override fun createIssuedCoupon(couponId: Long): IssuedCouponResponseDto {
-        TODO("일단 보류")
+        //이미 발급된 쿠폰인지 확인
+        val existingIssued = issuedRepository.findByCouponAndUserId(existingCoupon.id!!, userId)
+
+        if (existingIssued != null) {
+            throw IllegalArgumentException("이미 발급된 쿠폰 입니다") //정확한 익셉션은 아니지만 구분을 위해 임시로 사용
+        }
+
+        //최대 발급 횟수(maxCount) 확인
+        if (existingCoupon.issuedCount >= existingCoupon.maxCount) {
+            throw IllegalArgumentException("수량이 소진되어 더 이상 발급할 수 없는 쿠폰입니다.") //정확한 익셉션은 아니지만 구분을 위해 임시로 사용
+        }
+
+        //발급된 쿠폰 테이블에 저장
+        val issuedCoupon = Issued(
+            coupon = existingCoupon.id!!,
+            userId = userId,
+            couponDiscount = existingCoupon.discount,
+            couponIssuedCount = existingCoupon.issuedCount,
+            isUsed = false
+        )
+
+        issuedRepository.save(issuedCoupon)
+
+        existingCoupon.issued = true // <<< 이 부분이 발급된적이 있으면 true로 하는건데. 필요한가?? 고민
+        existingCoupon.issuedCount += 1
+        couponRepository.save(existingCoupon)
+
+        return IssuedCouponResponseDto(
+            id = issuedCoupon.id!!,
+            couponId = issuedCoupon.coupon,
+            name = existingCoupon.name,
+            discount = existingCoupon.discount,
+        )
     }
+    //사용했을 경우에 대한 로직이 없음 , isUsed에 대한 로직은 order쪽에서 완료될때 true로 변경되게 짜는게 좋을것 같습니다.
+
 
     override fun getCoupon(couponId: Long): CouponResponseDto {
         val findCoupon = couponRepository.findByIdOrNull(couponId)?: throw ModelNotFoundException("coupon",couponId)

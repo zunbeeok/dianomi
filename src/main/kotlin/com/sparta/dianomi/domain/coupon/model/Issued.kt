@@ -11,12 +11,17 @@ class Issued(
     @Column(name = "coupon_id")
     val coupon: Long,
 
+    @Column(name = "user_id")
+    val userId: Long,
+
     @Column(name = "coupon_discount")
-    val couponDiscount: Int,
+    val couponDiscount: Double,
 
     @Column(name = "coupon_issued_count")
-    val couponIssuedCount : Int
+    val couponIssuedCount : Int,
 
+    @Column(name = "is_used")
+    var isUsed: Boolean
 
 
 ):BaseTimeEntity()
@@ -24,9 +29,6 @@ class Issued(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
-
-    @Column(name = "is_used")
-    var isUsed: Boolean = false
 
     fun updateIssued() {
         this.isUsed = true

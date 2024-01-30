@@ -3,6 +3,7 @@ package com.sparta.dianomi.domain.coupon.controller
 import com.sparta.dianomi.authority.security.UserPrincipal
 import com.sparta.dianomi.domain.coupon.dto.CouponResponseDto
 import com.sparta.dianomi.domain.coupon.dto.CreateCouponDto
+import com.sparta.dianomi.domain.coupon.dto.IssuedCouponResponseDto
 import com.sparta.dianomi.domain.coupon.service.CouponService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -36,6 +37,16 @@ class CouponController(
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(couponService.createStoreCoupon(createCouponDto, user.id,storeId))
+    }
+
+    @PostMapping("/issue/{couponId}")
+    @PreAuthorize("hasRole('USER')")
+    fun issueCoupon(
+        @PathVariable couponId: Long,
+        @AuthenticationPrincipal user: UserPrincipal
+    ): ResponseEntity<IssuedCouponResponseDto> {
+        val issuedCoupon = couponService.createIssuedCoupon(couponId, user.id)
+        return ResponseEntity.status(HttpStatus.CREATED).body(issuedCoupon)
     }
 
 

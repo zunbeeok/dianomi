@@ -16,5 +16,5 @@ interface CouponService {
 
     fun deleteCoupon (couponId:Long,userId: Long,storeId:Long?)
 
-    fun createIssuedCoupon(couponId: Long): IssuedCouponResponseDto
+    fun createIssuedCoupon(couponId: Long , userId:Long): IssuedCouponResponseDto
 }

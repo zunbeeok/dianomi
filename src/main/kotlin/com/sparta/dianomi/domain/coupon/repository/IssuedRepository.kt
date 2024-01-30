@@ -4,6 +4,8 @@ import com.sparta.dianomi.domain.coupon.model.Issued
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface IssuedRepository:JpaRepository<Issued,Long> {
+
+    fun findByCouponAndUserId(couponId : Long,userId:Long):Issued?
 }
 
 //사용한 쿠폰들이 오는 무덤

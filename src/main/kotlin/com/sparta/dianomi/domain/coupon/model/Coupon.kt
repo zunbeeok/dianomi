@@ -31,7 +31,7 @@ class Coupon(
 
     //true와 false로 사용유무 구분을 위함
     @Column(name = "issued")
-    val issued: Boolean,
+    var issued: Boolean,
 
     @Column(name = "store_id")
     var storeId : Long? = null
