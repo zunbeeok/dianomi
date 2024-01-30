@@ -56,13 +56,13 @@ class ReviewServiceImpl(
         = reviewRepository.findByIdOrNull(reviewId).let {
             it ?: throw ModelNotFoundException("review", reviewId)
         }.also {
-            it.compareMemberId(userId);
+            it.compareMemberId(userId)
         }
         .also {
             it.updateRatingAndComment(updateReviewRequest)
-            reviewRepository.save(it);
+            reviewRepository.save(it)
         }.let {
-            ReviewCommonResponse(it);
+            ReviewCommonResponse(it)
         }
 
 
@@ -71,11 +71,11 @@ class ReviewServiceImpl(
     @Transactional
     override fun deleteReview(reviewId: Long, userId: Long)
     = reviewRepository.findByIdOrNull(reviewId).let {
-        it ?: throw ModelNotFoundException("review", reviewId);
+        it ?: throw ModelNotFoundException("review", reviewId)
     }.also{
-        it.compareMemberId(userId);
+        it.compareMemberId(userId)
     }.let{
-        reviewRepository.delete(it);
+        reviewRepository.delete(it)
     }
 
 }
